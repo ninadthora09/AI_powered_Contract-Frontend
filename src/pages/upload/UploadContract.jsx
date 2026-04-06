@@ -34,16 +34,20 @@ const UploadContract = ({ onClose }) => {
 
   /* ---------------- FILE SELECT ---------------- */
   const handleFileSelect = async (selectedFile) => {
-    setFile(selectedFile);
-    try {
-      const res = await uploadContract(selectedFile);
-      setContractId(res.contractId);
-      setStage("review");
-    } catch (err) {
-      console.error(err);
-      alert("Upload failed");
-    }
-  };
+  console.log("FILE SELECTED"); // 🔥 ADD THIS
+
+  setFile(selectedFile);
+  try {
+    const res = await uploadContract(selectedFile);
+    console.log("API CALLED"); // 🔥 ADD THIS
+
+    setContractId(res.contractId);
+    setStage("review");
+  } catch (err) {
+    console.error(err);
+    alert("Upload failed");
+  }
+};
 
   /* ---------------- ANALYZE ---------------- */
   const handleAnalyze = async () => {
