@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://ai-powered-contract-backend.onrender.com/",
+  baseURL: "https://ai-powered-contract-backend.onrender.com/api",
 });
 
 // Attach token automatically to every request
