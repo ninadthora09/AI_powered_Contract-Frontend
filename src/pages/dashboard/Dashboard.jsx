@@ -94,7 +94,7 @@ const Dashboard = () => {
           onClose={() => setOpenUpload(false)}
           onSuccess={async () => {
             const data = await getMyContracts();
-            setContracts(data.contracts);
+            setContracts(data);
           }}
         />
       </Dialog>
