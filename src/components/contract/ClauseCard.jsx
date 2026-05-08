@@ -1,24 +1,30 @@
-import { Box, Typography, Chip, Divider } from "@mui/material";
+import { Box, Typography, Chip, Divider, Paper } from "@mui/material";
 import { motion as Motion } from "framer-motion";
+import GavelIcon from "@mui/icons-material/Gavel";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
 const riskStyles = {
   HIGH: {
-    color: "#F87171",
-    glow: "rgba(248,113,113,0.25)",
-    bg: "rgba(248,113,113,0.08)",
-    border: "rgba(248,113,113,0.35)",
+    color: "#EF4444",
+    glow: "rgba(239,68,68,0.3)",
+    bg: "rgba(239,68,68,0.08)",
+    border: "rgba(239,68,68,0.4)",
+    icon: <WarningAmberIcon sx={{ fontSize: 20 }} />,
   },
   MEDIUM: {
-    color: "#FBBF24",
-    glow: "rgba(251,191,36,0.25)",
-    bg: "rgba(251,191,36,0.08)",
-    border: "rgba(251,191,36,0.35)",
+    color: "#F59E0B",
+    glow: "rgba(245,158,11,0.3)",
+    bg: "rgba(245,158,11,0.08)",
+    border: "rgba(245,158,11,0.4)",
+    icon: <WarningAmberIcon sx={{ fontSize: 20 }} />,
   },
   LOW: {
-    color: "#34D399",
-    glow: "rgba(52,211,153,0.25)",
-    bg: "rgba(52,211,153,0.08)",
-    border: "rgba(52,211,153,0.35)",
+    color: "#10B981",
+    glow: "rgba(16,185,129,0.3)",
+    bg: "rgba(16,185,129,0.08)",
+    border: "rgba(16,185,129,0.4)",
+    icon: <LightbulbIcon sx={{ fontSize: 20 }} />,
   },
 };
 
@@ -27,189 +33,178 @@ const ClauseCard = ({ flag }) => {
 
   return (
     <Motion.div
-      initial={{ opacity: 0, y: 16, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.45, ease: "easeOut" }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      whileHover={{ y: -4, transition: { duration: 0.2 } }}
     >
-      <Box
+      <Paper
+        elevation={0}
         sx={{
-          position: "relative",
           borderRadius: "20px",
-          p: 3,
           mb: 3,
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
-          backdropFilter: "blur(16px)",
+          background: "rgba(255,255,255,0.02)",
+          backdropFilter: "blur(10px)",
           border: `1px solid ${style.border}`,
-          boxShadow: `0 0 0 1px ${style.border}, 0 20px 40px rgba(0,0,0,0.55)`,
           overflow: "hidden",
+          transition: "all 0.2s ease",
+          "&:hover": {
+            borderColor: style.color,
+            boxShadow: `0 8px 32px ${style.glow}`,
+          },
         }}
       >
-        {/* Subtle glow */}
+        {/* Header */}
         <Box
           sx={{
-            position: "absolute",
-            inset: 0,
-            background: style.glow,
-            opacity: 0.06,
-            pointerEvents: "none",
+            px: 3,
+            py: 2,
+            borderBottom: `1px solid ${style.border}`,
+            background: style.bg,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 1,
           }}
-        />
-
-        {/* HEADER */}
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={2.5}
         >
-          <Typography
-            sx={{
-              fontWeight: 800,
-              fontSize: "1rem",
-              color: "#F9FAFB",
-              letterSpacing: "-0.01em",
-            }}
-          >
-            {flag.type}
-          </Typography>
-
+          <Box display="flex" alignItems="center" gap={1.5}>
+            <Box sx={{ color: style.color }}>{style.icon}</Box>
+            <Typography sx={{ fontWeight: 700, color: "#FFF", fontSize: "1rem" }}>
+              {flag.type || "Clause"}
+            </Typography>
+          </Box>
           <Chip
             label={flag.risk}
+            size="small"
             sx={{
               fontWeight: 700,
-              fontSize: "0.75rem",
+              fontSize: "0.7rem",
               height: 26,
               color: style.color,
-              background: style.bg,
+              background: "rgba(0,0,0,0.3)",
               border: `1px solid ${style.border}`,
-              boxShadow: `0 0 12px ${style.glow}`,
+              borderRadius: "8px",
             }}
           />
         </Box>
 
-        {/* CONTENT GRID */}
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "1.2fr 1fr" },
-            gap: 3,
-          }}
-        >
-          {/* LEFT — ORIGINAL CLAUSE */}
+        {/* Content */}
+        <Box sx={{ p: 3 }}>
           <Box
             sx={{
-              p: 2,
-              borderRadius: "16px",
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              maxHeight: 260,
-              overflowY: "auto",
+              display: "grid",
+              gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+              gap: 3,
             }}
           >
-            <Typography
-              sx={{
-                fontSize: "0.75rem",
-                fontWeight: 600,
-                color: "#9CA3AF",
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-                mb: 0.6,
-              }}
-            >
-              Original Clause
-            </Typography>
-
-            <Typography
-              sx={{
-                fontSize: "0.95rem",
-                color: "#D1D5DB",
-                lineHeight: 1.8,
-                fontStyle: "italic",
-                position: "relative",
-              }}
-            >
-              “{flag.clause}”
-            </Typography>
-          </Box>
-
-          {/* RIGHT — INSIGHTS */}
-          <Box>
-            {/* WHY RISKY */}
-            <Typography
-              sx={{
-                fontSize: "0.75rem",
-                fontWeight: 600,
-                color: "#9CA3AF",
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-                mb: 0.6,
-              }}
-            >
-              Why this is risky
-            </Typography>
-
-            <Typography
-              sx={{
-                fontSize: "0.9rem",
-                color: "#E5E7EB",
-                lineHeight: 1.7,
-                mb: 2,
-              }}
-            >
-              {flag.plainEnglish}
-            </Typography>
-
-            <Divider sx={{ borderColor: "rgba(255,255,255,0.08)", mb: 2 }} />
-
-            {/* SUGGESTED WORDING */}
-            <Typography
-              sx={{
-                fontSize: "0.75rem",
-                fontWeight: 600,
-                color: "#9CA3AF",
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-                mb: 0.6,
-              }}
-            >
-              Suggested safer wording
-            </Typography>
-
-            <Box
-              sx={{
-                p: 1.8,
-                borderRadius: "14px",
-                background: "rgba(196,181,253,0.08)",
-                border: "1px solid rgba(196,181,253,0.25)",
-              }}
-            >
+            {/* Left - Original Clause */}
+            <Box>
               <Typography
                 sx={{
-                  fontSize: "0.9rem",
-                  color: "#C4B5FD",
-                  lineHeight: 1.7,
+                  fontSize: "0.7rem",
+                  fontWeight: 600,
+                  color: "#9CA3AF",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                  mb: 1.5,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 0.5,
                 }}
               >
-                {flag.suggestion}
+                <GavelIcon sx={{ fontSize: 14 }} /> Original Clause
               </Typography>
+              <Box
+                sx={{
+                  p: 2,
+                  borderRadius: "14px",
+                  background: "rgba(0,0,0,0.2)",
+                  border: "1px solid rgba(255,255,255,0.05)",
+                  maxHeight: 200,
+                  overflowY: "auto",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: "0.85rem",
+                    color: "#D1D5DB",
+                    lineHeight: 1.6,
+                    fontStyle: "italic",
+                  }}
+                >
+                  "{flag.clause}"
+                </Typography>
+              </Box>
             </Box>
 
-            {/* BASIS */}
-            {flag.basedOn && (
+            {/* Right - Analysis */}
+            <Box>
               <Typography
                 sx={{
-                  mt: 2,
-                  fontSize: "0.75rem",
+                  fontSize: "0.7rem",
+                  fontWeight: 600,
                   color: "#9CA3AF",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                  mb: 1.5,
                 }}
               >
-                Based on: {flag.basedOn}
+                Why It's Problematic
               </Typography>
-            )}
+              <Typography
+                sx={{
+                  fontSize: "0.85rem",
+                  color: "#E5E7EB",
+                  lineHeight: 1.6,
+                  mb: 2,
+                }}
+              >
+                {flag.plainEnglish}
+              </Typography>
+
+              <Divider sx={{ borderColor: "rgba(255,255,255,0.08)", my: 2 }} />
+
+              <Typography
+                sx={{
+                  fontSize: "0.7rem",
+                  fontWeight: 600,
+                  color: "#9CA3AF",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                  mb: 1.5,
+                }}
+              >
+                Recommended Fix
+              </Typography>
+              <Box
+                sx={{
+                  p: 2,
+                  borderRadius: "14px",
+                  background: "rgba(16,185,129,0.05)",
+                  borderLeft: `3px solid ${style.color}`,
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: "0.85rem",
+                    color: style.color,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {flag.suggestion}
+                </Typography>
+              </Box>
+
+              {flag.basedOn && (
+                <Typography sx={{ mt: 1.5, fontSize: "0.7rem", color: "#6B7280" }}>
+                  Based on: {flag.basedOn}
+                </Typography>
+              )}
+            </Box>
           </Box>
         </Box>
-      </Box>
+      </Paper>
     </Motion.div>
   );
 };
